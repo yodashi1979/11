@@ -1,0 +1,6 @@
+{
+  "appId": "com.monnom.monapp",
+  "appName": "Mon App iOS",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
