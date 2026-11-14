@@ -1,0 +1,31 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Récupérer le code source
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Installer les dépendances du projet
+        run: npm install
+
+      - name: Ajouter la plateforme iOS à Capacitor
+        run: npx cap add ios
+
+      - name: Synchroniser les fichiers web avec le projet natif iOS
+        run: npx cap sync ios
+
+      - name: Compiler l'application iOS (Build)
+        run: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -archivePath App.xcarchive archive
